@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+ * Ops OS design tokens
+ * Brand colors are sampled from the Ops OS logo (navy #1A395A / teal #1A7C87).
+ * Neutrals use Tailwind's slate scale (blue-gray) for surfaces and lines.
+ */
+@theme inline {
+  --color-navy: #1a395a;
+  --color-navy-deep: #0f2440;
+  --color-navy-ink: #0b1a2e;
+  --color-mid: #1c5a78;
+  --color-teal: #1a7c87;
+  --color-teal-strong: #146771;
+  --color-teal-soft: #e7f2f3;
+  --color-ink: #0e1e33;
+  --color-mist: #f4f7fa;
+  --color-line: #e3e8ef;
+
+  --font-sans: var(--font-inter), var(--font-noto-jp), "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, monospace;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-dash: dash 1.6s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes dash {
+    to { stroke-dashoffset: -16; }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Japanese headings: proportional kana spacing + phrase-aware line breaking */
+.jp-heading {
+  font-feature-settings: "palt" 1;
+  word-break: auto-phrase;
+  line-height: 1.35;
+}
+
+/* Drafting-paper grid used behind the hero (manufacturing / drawing motif) */
+.bg-drafting {
+  background-image:
+    linear-gradient(to right, rgb(15 36 64 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(15 36 64 / 0.045) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+}
+
+/* Scroll reveal: opacity + transform only */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 700ms ease-out,
+    transform 700ms ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float,
+  .animate-dash {
+    animation: none !important;
+  }
+}
+
+/* Visible, consistent keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
